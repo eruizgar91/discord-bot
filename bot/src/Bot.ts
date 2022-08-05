@@ -3,7 +3,7 @@ import interactionCreate from './listeners/interactionCreate'
 import ready from './listeners/ready'
 
 const token =
-  'MTAwNTA1NzkwMjI0OTI2NzIwMA.Gpnmqd.7N5pMU-lu4iuKlQcNVv3_OfvcKfwIMM1g8bNhs'
+  ''
 
 console.log('Bot is starting...')
 
