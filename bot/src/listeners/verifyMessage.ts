@@ -1,15 +1,15 @@
-import { Client, Interaction, CommandInteraction } from "discord.js";
+import { Client, Interaction, CommandInteraction, ModalSubmitInteraction } from "discord.js";
 import { Commands } from "../Commands";
 
 export default (client: Client): void => {
     client.on("message", async (interaction: Interaction) => {
-        if (interaction.isCommand() || interaction.isContextMenuCommand()) {
+        if (interaction.isModalSubmit()) {
             await handleSlashCommand(client, interaction);
         }
     });
 };
 
-const handleSlashCommand = async (client: Client, interaction: CommandInteraction): Promise<void> => {
+const handleSlashCommand = async (client: Client, interaction: ModalSubmitInteraction): Promise<void> => {
     const slashCommand = Commands.find(c => c.name === interaction.commandName);
     
     if (!slashCommand) {
