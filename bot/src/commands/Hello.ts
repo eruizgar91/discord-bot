@@ -13,28 +13,32 @@ export const Hello: Command = {
       try {
         //Send the message to the user to sign
         const token = ethers.utils.hexValue(ethers.utils.randomBytes(20))
-
-        const result = await axios
-          .post(
-            `http://localhost:3000/signups`,
-            {
-              botId: client.user?.id,
-              userId: interaction.user.id,
-              token: token,
-              requestTimestamp: Date.now().toString(),
-            },
-            { headers: { 'Content-Type': 'application/json' } }
-          )
-          // console.log(result)
-          // .then((res) => res.data)
-          // .then((json) => console.log(json))
-
-        user.send(`Can you sign the message? http://localhost:3001?token=${token}&id=${result.data._id}`)
+        // Need logic here to avoid duplicates
+        const res = await axios.get(
+          `http://localhost:3000/signups/user/${interaction.user.id}`,
+          { headers: { 'Content-Type': 'application/json' } }
+        )
+        if(res.data.walletAddress){
+          console.log('You were logged yet.')
+        }
+        
+        const result = await axios.post(
+          `http://localhost:3000/signups`,
+          {
+            botId: client.user?.id,
+            userId: interaction.user.id,
+            token: token,
+            requestTimestamp: Date.now().toString(),
+          },
+          { headers: { 'Content-Type': 'application/json' } }
+        )
+        user.send(
+          `Can you sign the message? http://localhost:3001?token=${token}&id=${result.data._id}`
+        )
       } catch (err) {
         console.log(err)
       }
     })
-
     await interaction.followUp({
       ephemeral: true,
       content,

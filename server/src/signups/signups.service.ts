@@ -16,6 +16,10 @@ export class SignupsService {
     return await this.signupModel.findById(id);
   }
 
+  async getSignupByUser(id: string): Promise<Signup> {
+    return await this.signupModel.findOne({userId: id});
+  }
+
   async createSignup(Signup: CreateSignupDto): Promise<Signup> {
     const newSignup = new this.signupModel(Signup);
     return await newSignup.save();

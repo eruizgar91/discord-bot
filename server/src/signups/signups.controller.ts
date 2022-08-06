@@ -26,6 +26,12 @@ export class SignupsController {
     return this.signupsService.getSignup(signupId);
   }
 
+  @Get('/user/:userId')
+  getSignupByUser(@Param('userId') userId: string): Promise<Signup> {
+    return this.signupsService.getSignupByUser(userId);
+  }
+  
+
   @Post()
   createSignup(@Body() signup: CreateSignupDto): Promise<Signup> {
     console.log(signup)

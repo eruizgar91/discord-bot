@@ -1,10 +1,13 @@
-import { Client, Interaction, CommandInteraction, ModalBuilder } from "discord.js";
+import { Client, Interaction, CommandInteraction, ModalBuilder, ButtonInteraction } from "discord.js";
 import { Commands } from "../Commands";
 
 export default (client: Client): void => {
     client.on("interactionCreate", async (interaction: Interaction) => {
         if (interaction.isCommand() || interaction.isContextMenuCommand()) {
             await handleSlashCommand(client, interaction);
+        }
+        if(interaction.isButton()){
+            await handleButtonCommand(client, interaction)
         }
     });
 };
@@ -21,4 +24,9 @@ const handleSlashCommand = async (client: Client, interaction: CommandInteractio
 
     slashCommand.run(client, interaction);
 }; 
+
+
+function handleButtonCommand(client: Client<boolean>, interaction: ButtonInteraction) {
+    interaction.reply("you clicked" + interaction.customId);
+}
 
